@@ -6,15 +6,15 @@ import {
 } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { generateFakePerson } from 'src/app/in-memory-data.service';
-import { MaterialModule } from 'src/app/shared/material.module';
+import { MaterialModule } from 'src/app/material.module';
 import { PeopleService } from '../../services/people.service';
 
 import { PeopleListComponent } from './people-list.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { UtilsModule } from 'src/app/shared/utils.module';
 import { CalculateAgePipe } from '../../pipes/calculate-age.pipe';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { UtilsModule } from 'src/app/utils/utils.module';
+import { generateFakePerson } from 'src/app/utils/in-memory-data/in-memory-data.service';
 
 describe('PeopleListComponent', () => {
   let component: PeopleListComponent;
@@ -62,9 +62,7 @@ describe('PeopleListComponent', () => {
     spyOn(component, 'onDelete');
     fixture.autoDetectChanges(); // ASK: why its not working in BeforeEach
 
-    expect(component.loading).toBeTruthy();
     tick(1);
-    expect(component.loading).toBeFalsy();
 
     const row = fixture.debugElement.nativeElement.querySelectorAll('tr');
     const button = Array.from<HTMLButtonElement>(
@@ -78,11 +76,9 @@ describe('PeopleListComponent', () => {
     fixture.autoDetectChanges();
     const spy = mockPeopleService.deletePerson;
 
-    expect(component.loading).toBeTruthy();
     tick(1);
-    expect(component.loading).toBeFalsy();
 
-    component.onDelete(0, 0);
+    component.onDelete(0);
     expect(spy).toHaveBeenCalled();
   }));
 });

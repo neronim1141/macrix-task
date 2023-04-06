@@ -1,5 +1,16 @@
-<mat-form-field style="margin-bottom: -1.25em">
-  <input matInput [type]="type" [formControl]="control" />
+<mat-form-field *ngIf="type === 'date'" style="margin-bottom: -1.25em">
+  <input
+    matInput
+    [matDatepicker]="picker"
+    placeholder="DD/MM/YYYY"
+    [formControl]="control"
+    [max]="max"
+    [required]="required" />
+  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+<mat-form-field *ngIf="type !== 'date'" style="margin-bottom: -1.25em">
+  <input matInput [type]="type" [formControl]="control" [required]="required" />
 </mat-form-field>
 <mat-icon
   class="error-info"

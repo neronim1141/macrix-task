@@ -1,5 +1,5 @@
 <form
-  *ngIf="peopleForm && loading === false"
+  *ngIf="peopleForm"
   [formGroup]="peopleForm"
   (ngSubmit)="onSubmit()"
   autocomplete="off"
@@ -16,20 +16,26 @@
         <th mat-header-cell *matHeaderCellDef>Firstname</th>
         <td mat-cell *matCellDef="let person; let i = index">
           <div class="table-field">
-            <mcx-table-input [control]="person.controls['firstName']" />
+            <mcx-table-input
+              [control]="person.controls['firstName']"
+              required="true" />
           </div>
         </td>
       </ng-container>
       <ng-container matColumnDef="lastName">
         <th mat-header-cell *matHeaderCellDef>Lastname</th>
         <td mat-cell *matCellDef="let person">
-          <mcx-table-input [control]="person.controls['lastName']" />
+          <mcx-table-input
+            [control]="person.controls['lastName']"
+            required="true" />
         </td>
       </ng-container>
       <ng-container matColumnDef="streetName">
         <th mat-header-cell *matHeaderCellDef>Street</th>
         <td mat-cell *matCellDef="let person">
-          <mcx-table-input [control]="person.controls['streetName']" />
+          <mcx-table-input
+            [control]="person.controls['streetName']"
+            required="true" />
         </td>
       </ng-container>
       <ng-container matColumnDef="houseNumber">
@@ -37,7 +43,8 @@
         <td mat-cell *matCellDef="let person">
           <mcx-table-input
             type="number"
-            [control]="person.controls['houseNumber']" />
+            [control]="person.controls['houseNumber']"
+            required="true" />
         </td>
       </ng-container>
       <ng-container matColumnDef="apartmentNumber">
@@ -51,27 +58,35 @@
       <ng-container matColumnDef="postalCode">
         <th mat-header-cell *matHeaderCellDef>Postal Code</th>
         <td mat-cell *matCellDef="let person">
-          <mcx-table-input [control]="person.controls['postalCode']" />
+          <mcx-table-input
+            [control]="person.controls['postalCode']"
+            required="true" />
         </td>
       </ng-container>
       <ng-container matColumnDef="town">
         <th mat-header-cell *matHeaderCellDef>Town</th>
         <td mat-cell *matCellDef="let person">
-          <mcx-table-input [control]="person.controls['town']" />
+          <mcx-table-input
+            [control]="person.controls['town']"
+            required="true" />
         </td>
       </ng-container>
       <ng-container matColumnDef="phoneNumber">
         <th mat-header-cell *matHeaderCellDef>Phone Number</th>
         <td mat-cell *matCellDef="let person">
-          <mcx-table-input [control]="person.controls['phoneNumber']" />
+          <mcx-table-input
+            [control]="person.controls['phoneNumber']"
+            required="true" />
         </td>
       </ng-container>
       <ng-container matColumnDef="dateOfBirth">
         <th mat-header-cell *matHeaderCellDef>Birthdate</th>
         <td mat-cell *matCellDef="let person" [formGroup]="person">
-          <mcx-table-datepicker
+          <mcx-table-input
+            type="date"
+            [max]="currentDate"
             [control]="person.controls['dateOfBirth']"
-            [max]="currentDate" />
+            required="true" />
         </td>
       </ng-container>
       <ng-container matColumnDef="age">
@@ -91,11 +106,8 @@
             matTooltip="Delete"
             color="warn"
             type="button"
-            (click)="onDelete(person.id, i)">
-            <mat-icon *ngIf="!person.controls.isLoading.value">delete</mat-icon>
-            <mat-icon *ngIf="person.controls.isLoading.value"
-              >hourglass_empty</mat-icon
-            >
+            (click)="onDelete(person.controls.id.getRawValue())">
+            <mat-icon>delete</mat-icon>
           </button>
         </td>
       </ng-container>
@@ -109,19 +121,22 @@
     </table>
   </ng-container>
 
-  <div class="edit-actions" *ngIf="!peopleForm.pristine">
-    <button mat-flat-button matTooltip="Save" color="primary" type="submit">
+  <div class="edit-actions">
+    <button
+      mat-flat-button
+      matTooltip="Save"
+      color="primary"
+      type="submit"
+      [disabled]="peopleForm.pristine">
       Save
     </button>
     <button
       mat-flat-button
       matTooltip="Cancel"
       color="warn"
-      (click)="onCancel()">
+      (click)="onCancel()"
+      [disabled]="peopleForm.pristine">
       Cancel
     </button>
   </div>
 </form>
-<div class="loader" *ngIf="loading === true">
-  <mat-spinner />
-</div>

@@ -14,8 +14,6 @@ import { zip } from 'rxjs';
 
 type PersonControls = {
   [key in keyof PersonDTO]: AbstractControl<PersonDTO[key]>;
-} & {
-  isLoading: AbstractControl<boolean>;
 };
 @Component({
   selector: 'mcx-people-list',
@@ -23,7 +21,6 @@ type PersonControls = {
   styleUrls: ['./people-list.component.scss'],
 })
 export class PeopleListComponent implements OnInit {
-  loading = false;
   currentDate = new Date();
   displayedColumns: (keyof PersonDTO | 'age' | 'actions')[] = [
     'id',
@@ -43,119 +40,89 @@ export class PeopleListComponent implements OnInit {
   peopleForm!: FormGroup<{
     personRows: FormArray<FormGroup<PersonControls>>;
   }>;
-  people: PersonDTO[] = [];
+  dataSource = new MatTableDataSource<FormGroup<PersonControls>>();
 
-  dataSource = new MatTableDataSource<AbstractControl<PersonDTO>>();
   constructor(
     private peopleService: PeopleService,
     private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    this.loading = true;
-    this.peopleService.getPeople().subscribe(people => {
-      this.people = people;
-      this.peopleForm = this.createForm();
-      this.dataSource = new MatTableDataSource(
-        (this.peopleForm.get('personRows') as FormArray).controls
-      );
-      this.loading = false;
+    this.getPeopleData();
+  }
+
+  onSubmit() {
+    if (this.peopleForm.invalid) return;
+    // Get edited rows values
+    const dirtyControlsValues = this.peopleForm.controls.personRows.controls
+      .filter(control => !control.pristine)
+      .map(control => control.value);
+
+    zip([
+      ...dirtyControlsValues.map(person => {
+        if (person.id)
+          return this.peopleService.updatePerson(person.id, person);
+        else
+          return this.peopleService.createPerson(
+            person as Omit<PersonDTO, 'id'>
+          );
+      }),
+    ]).subscribe(() => this.getPeopleData());
+  }
+
+  onDelete(id: number) {
+    this.peopleService.deletePerson(id).subscribe(() => {
+      this.getPeopleData();
     });
   }
-  private createForm(): FormGroup {
+
+  onCancel() {
+    this.getPeopleData();
+  }
+
+  private getPeopleData() {
+    this.peopleService.getPeople().subscribe(people => {
+      this.peopleForm = this.createForm(people);
+      this.dataSource = new MatTableDataSource(
+        this.peopleForm.controls.personRows.controls
+      );
+    });
+  }
+  private createForm(people: PersonDTO[]): FormGroup {
     return this.formBuilder.group({
       personRows: this.formBuilder.array(
-        this.people.map(person => {
+        people.map(person => {
           return this.formBuilder.group({
-            id: new FormControl(person.id, { nonNullable: true }),
+            id: new FormControl(person.id),
             firstName: new FormControl(person.firstName, {
-              nonNullable: true,
               validators: [Validators.required],
             }),
             lastName: new FormControl(person.lastName, {
-              nonNullable: true,
               validators: [Validators.required],
             }),
             streetName: new FormControl(person.streetName, {
-              nonNullable: true,
               validators: [Validators.required],
             }),
             houseNumber: new FormControl(person.houseNumber, {
-              nonNullable: true,
               validators: [Validators.required],
             }),
             apartmentNumber: new FormControl(person.apartmentNumber),
             postalCode: new FormControl(person.postalCode, {
-              nonNullable: true,
               validators: [Validators.required],
             }),
             town: new FormControl(person.town, {
-              nonNullable: true,
               validators: [Validators.required],
             }),
             phoneNumber: new FormControl(person.phoneNumber, {
-              nonNullable: true,
               validators: [Validators.required],
             }),
             dateOfBirth: new FormControl(person.dateOfBirth, {
-              nonNullable: true,
-              validators: [Validators.required],
-            }),
-            isLoading: new FormControl(false, {
-              nonNullable: true,
+              //TODO:  max validator
               validators: [Validators.required],
             }),
           });
         })
       ),
     });
-  }
-  onDelete(id: number, index: number) {
-    const control = this.peopleForm.get('personRows') as FormArray;
-
-    control.at(index).get('isLoading')?.patchValue(true);
-    this.dataSource = new MatTableDataSource(control.controls);
-
-    this.peopleService.deletePerson(id).subscribe(() => {
-      this.people = this.people.filter(person => person.id !== id);
-      console.log(index);
-
-      control.removeAt(index);
-      control.at(index).get('isLoading')?.patchValue(false);
-
-      this.dataSource = new MatTableDataSource(control.controls);
-    });
-  }
-  onSubmit() {
-    if (this.peopleForm.invalid) return;
-    this.loading = true;
-    const touchedControls = this.peopleForm.controls.personRows.controls.filter(
-      control => control.touched
-    );
-    const personsDTOs = touchedControls.map(control => {
-      const dto = control.value;
-      delete dto.isLoading;
-      return dto as PersonDTO;
-    });
-    zip([
-      ...personsDTOs.map(person =>
-        this.peopleService.updatePerson(person.id, person)
-      ),
-    ]).subscribe(() => {
-      this.peopleService.getPeople().subscribe(people => {
-        this.people = people;
-        this.peopleForm = this.createForm();
-        this.dataSource = new MatTableDataSource(
-          (this.peopleForm.get('personRows') as FormArray).controls
-        );
-        this.loading = false;
-      });
-    });
-  }
-  onCancel() {
-    this.peopleForm = this.createForm();
-    this.dataSource = new MatTableDataSource(
-      (this.peopleForm.get('personRows') as FormArray).controls
-    );
   }
 }

@@ -11,6 +11,7 @@ export class PeopleService {
     return this.http.get<PersonDTO[]>(this.peopleUrl);
   }
   deletePerson(id: number): Observable<null> {
+    console.log(id);
     return this.http.delete<null>(`${this.peopleUrl}/${id}`);
   }
   updatePerson(
@@ -18,5 +19,8 @@ export class PeopleService {
     person: Partial<PersonDTO>
   ): Observable<PersonDTO> {
     return this.http.put<PersonDTO>(`${this.peopleUrl}/${id}`, person);
+  }
+  createPerson(person: Omit<PersonDTO, 'id'>): Observable<PersonDTO> {
+    return this.http.post<PersonDTO>(`${this.peopleUrl}`, person);
   }
 }

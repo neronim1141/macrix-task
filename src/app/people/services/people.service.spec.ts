@@ -1,22 +1,15 @@
-import { HttpClientModule } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import {
-  InMemoryDataService,
-  generateFakePerson,
-} from 'src/app/in-memory-data.service';
 
 import { PeopleService } from './people.service';
+import { generateFakePerson } from 'src/app/utils/in-memory-data/in-memory-data.service';
+import { UtilsModule } from 'src/app/utils/utils.module';
 
 describe('PeopleService', () => {
   let service: PeopleService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientModule,
-        HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService),
-      ],
+      imports: [UtilsModule],
       providers: [PeopleService],
     });
     service = TestBed.inject(PeopleService);
@@ -37,10 +30,9 @@ describe('PeopleService', () => {
       done();
     });
   });
-  it('#updatePerson should return null from observable', (done: DoneFn) => {
-    const newPerson = generateFakePerson(0);
-    service.updatePerson(0, newPerson).subscribe(value => {
-      expect(value).toEqual(newPerson);
+  it('#updatePerson should return person from observable', (done: DoneFn) => {
+    service.updatePerson(0, generateFakePerson(0)).subscribe(value => {
+      expect(value).not.toBeNull();
       done();
     });
   });

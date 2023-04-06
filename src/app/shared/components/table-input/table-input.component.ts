@@ -6,6 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { humanizeErrors } from '../../utils/humanizeErrors';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   standalone: true,
@@ -14,6 +16,8 @@ import { humanizeErrors } from '../../utils/humanizeErrors';
     MatFormFieldModule,
     MatIconModule,
     MatTooltipModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     FormsModule,
     MatInputModule,
     ReactiveFormsModule,
@@ -24,7 +28,10 @@ import { humanizeErrors } from '../../utils/humanizeErrors';
 })
 export class TableInputComponent {
   @Input() control: FormControl = new FormControl();
-  @Input() type: 'number' | 'text' = 'text';
+  @Input() type: 'number' | 'text' | 'date' = 'text';
+  @Input() max?: Date;
+  @Input() required: 'true' | boolean = false;
+
   getErrorMessage() {
     return humanizeErrors(this.control?.errors);
   }
