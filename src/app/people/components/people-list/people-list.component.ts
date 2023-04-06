@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PeopleService } from '../../services/people.service';
 import { Person } from '../../types/person';
+import { FormBuilder, FormGroup } from '@angular/forms';
 @Component({
   selector: 'mcx-people-list',
   templateUrl: './people-list.component.html',
@@ -8,6 +9,7 @@ import { Person } from '../../types/person';
 })
 export class PeopleListComponent implements OnInit {
   loading = false;
+  currentDate = new Date();
   displayedColumns: (keyof Person | 'actions')[] = [
     'id',
     'firstName',
@@ -22,15 +24,21 @@ export class PeopleListComponent implements OnInit {
     'age',
     'actions',
   ];
-  colspan = this.displayedColumns.length;
+  VOForm?: FormGroup;
   people: Person[] = [];
-  constructor(private peopleService: PeopleService) {}
+  constructor(
+    private peopleService: PeopleService,
+    private formBuilder: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.loading = true;
     this.peopleService.getPeople().subscribe(people => {
       this.people = people.map(person => new Person(person));
       this.loading = false;
+    });
+    this.VOForm = this.formBuilder.group({
+      VORows: this.formBuilder.array([]),
     });
   }
   onDelete(id: number) {
