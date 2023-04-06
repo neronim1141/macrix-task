@@ -87,8 +87,12 @@ export class PeopleListComponent implements OnInit {
             apartmentNumber: new FormControl(person.apartmentNumber),
             postalCode: new FormControl(person.postalCode, {
               nonNullable: true,
+              validators: [Validators.required],
             }),
-            town: new FormControl(person.town, { nonNullable: true }),
+            town: new FormControl(person.town, {
+              nonNullable: true,
+              validators: [Validators.required],
+            }),
             phoneNumber: new FormControl(person.phoneNumber, {
               nonNullable: true,
               validators: [Validators.required],
@@ -123,6 +127,7 @@ export class PeopleListComponent implements OnInit {
     });
   }
   onSubmit() {
+    if (this.peopleForm.invalid) return;
     this.loading = true;
     const touchedControls = this.peopleForm.controls.personRows.controls.filter(
       control => control.touched

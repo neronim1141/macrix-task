@@ -1,5 +1,5 @@
 <form
-  *ngIf="peopleForm"
+  *ngIf="peopleForm && loading === false"
   [formGroup]="peopleForm"
   (ngSubmit)="onSubmit()"
   autocomplete="off"
@@ -14,87 +14,64 @@
       </ng-container>
       <ng-container matColumnDef="firstName">
         <th mat-header-cell *matHeaderCellDef>Firstname</th>
-        <td mat-cell *matCellDef="let person" [formGroup]="person">
-          <mat-form-field style="width: 6rem">
-            <input matInput type="text" formControlName="firstName" />
-          </mat-form-field>
+        <td mat-cell *matCellDef="let person; let i = index">
+          <div class="table-field">
+            <mcx-table-input [control]="person.controls['firstName']" />
+          </div>
         </td>
       </ng-container>
       <ng-container matColumnDef="lastName">
         <th mat-header-cell *matHeaderCellDef>Lastname</th>
         <td mat-cell *matCellDef="let person">
-          <mat-form-field style="width: 6rem" [formGroup]="person">
-            <input matInput type="text" formControlName="lastName" />
-          </mat-form-field>
+          <mcx-table-input [control]="person.controls['lastName']" />
         </td>
       </ng-container>
       <ng-container matColumnDef="streetName">
         <th mat-header-cell *matHeaderCellDef>Street</th>
-        <td mat-cell *matCellDef="let person" [formGroup]="person">
-          <mat-form-field style="width: 10rem">
-            <input matInput type="text" formControlName="streetName" />
-          </mat-form-field>
+        <td mat-cell *matCellDef="let person">
+          <mcx-table-input [control]="person.controls['streetName']" />
         </td>
       </ng-container>
       <ng-container matColumnDef="houseNumber">
         <th mat-header-cell *matHeaderCellDef>House</th>
-        <td mat-cell *matCellDef="let person" [formGroup]="person">
-          <mat-form-field style="width: 5rem">
-            <input matInput type="number" formControlName="houseNumber" />
-          </mat-form-field>
+        <td mat-cell *matCellDef="let person">
+          <mcx-table-input
+            type="number"
+            [control]="person.controls['houseNumber']" />
         </td>
       </ng-container>
       <ng-container matColumnDef="apartmentNumber">
         <th mat-header-cell *matHeaderCellDef>Apartment</th>
-        <td mat-cell *matCellDef="let person" [formGroup]="person">
-          <mat-form-field style="width: 5rem">
-            <input matInput type="number" formControlName="apartmentNumber" />
-          </mat-form-field>
+        <td mat-cell *matCellDef="let person">
+          <mcx-table-input
+            type="number"
+            [control]="person.controls['apartmentNumber']" />
         </td>
       </ng-container>
       <ng-container matColumnDef="postalCode">
         <th mat-header-cell *matHeaderCellDef>Postal Code</th>
-        <td mat-cell *matCellDef="let person" [formGroup]="person">
-          <mat-form-field style="width: 6rem">
-            <input matInput type="text" formControlName="postalCode" />
-          </mat-form-field>
+        <td mat-cell *matCellDef="let person">
+          <mcx-table-input [control]="person.controls['postalCode']" />
         </td>
       </ng-container>
       <ng-container matColumnDef="town">
         <th mat-header-cell *matHeaderCellDef>Town</th>
-        <td mat-cell *matCellDef="let person" [formGroup]="person">
-          <mat-form-field style="width: 8rem">
-            <input matInput type="text" formControlName="town" />
-          </mat-form-field>
+        <td mat-cell *matCellDef="let person">
+          <mcx-table-input [control]="person.controls['town']" />
         </td>
       </ng-container>
       <ng-container matColumnDef="phoneNumber">
         <th mat-header-cell *matHeaderCellDef>Phone Number</th>
-        <td mat-cell *matCellDef="let person" [formGroup]="person">
-          <mat-form-field style="width: 8rem">
-            <input matInput type="text" formControlName="phoneNumber" />
-          </mat-form-field>
+        <td mat-cell *matCellDef="let person">
+          <mcx-table-input [control]="person.controls['phoneNumber']" />
         </td>
       </ng-container>
       <ng-container matColumnDef="dateOfBirth">
         <th mat-header-cell *matHeaderCellDef>Birthdate</th>
         <td mat-cell *matCellDef="let person" [formGroup]="person">
-          <mat-form-field
-            appearance="fill"
-            style="width: 10rem"
-            [formGroup]="person">
-            <input
-              matInput
-              [matDatepicker]="picker"
-              placeholder="DD/MM/YYYY"
-              [value]="person.dateofBirth"
-              [max]="currentDate"
-              formControlName="dateOfBirth" />
-            <mat-datepicker-toggle
-              matIconSuffix
-              [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
+          <mcx-table-datepicker
+            [control]="person.controls['dateOfBirth']"
+            [max]="currentDate" />
         </td>
       </ng-container>
       <ng-container matColumnDef="age">
@@ -126,7 +103,7 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       <tr class="mat-row" *matNoDataRow>
         <td [attr.colspan]="displayedColumns.length">
-          <div class="table-loader" *ngIf="loading === false">no data</div>
+          <div class="table-loader">no data</div>
         </td>
       </tr>
     </table>
@@ -145,6 +122,6 @@
     </button>
   </div>
 </form>
-<div class="table-loader" *ngIf="loading === true">
+<div class="loader" *ngIf="loading === true">
   <mat-spinner />
 </div>

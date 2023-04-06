@@ -1,7 +1,10 @@
 import { HttpClientModule } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from 'src/app/in-memory-data.service';
+import {
+  InMemoryDataService,
+  generateFakePerson,
+} from 'src/app/in-memory-data.service';
 
 import { PeopleService } from './people.service';
 
@@ -31,6 +34,13 @@ describe('PeopleService', () => {
   it('#deletePerson should return null from observable', (done: DoneFn) => {
     service.deletePerson(0).subscribe(value => {
       expect(value).toBeNull();
+      done();
+    });
+  });
+  it('#updatePerson should return null from observable', (done: DoneFn) => {
+    const newPerson = generateFakePerson(0);
+    service.updatePerson(0, newPerson).subscribe(value => {
+      expect(value).toEqual(newPerson);
       done();
     });
   });

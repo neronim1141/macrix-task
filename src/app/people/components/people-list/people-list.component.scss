@@ -1,23 +1,33 @@
 table {
   width: 100%;
-  table-layout: auto;
+  table-layout: fixed;
   overflow: scroll;
 }
-.table-loader {
+.loader {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 1rem;
 }
+
+.mat-column-id,
+.mat-column-age {
+  width: 4rem;
+}
+.mat-column-actions {
+  width: 6rem;
+}
+td:has(mcx-table-input, mcx-table-datepicker) {
+  padding: 0;
+}
+mcx-table-input,
+mcx-table-datepicker {
+  max-width: 100%;
+}
 .edit-actions {
   padding: 0.5rem;
   display: flex;
   gap: 0.5rem;
   justify-content: flex-end;
-}
-
-mat-form-field {
-  font-size: 12px;
-  width: 100%;
 }

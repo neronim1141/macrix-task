@@ -16,7 +16,7 @@ export class PeopleService {
   updatePerson(
     id: PersonDTO['id'],
     person: Partial<PersonDTO>
-  ): Observable<null> {
-    return this.http.put<null>(`${this.peopleUrl}/${id}`, person);
+  ): Observable<PersonDTO> {
+    return this.http.put<PersonDTO>(`${this.peopleUrl}/${id}`, person);
   }
 }

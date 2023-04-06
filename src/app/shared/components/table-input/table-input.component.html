@@ -1,0 +1,10 @@
+<mat-form-field style="margin-bottom: -1.25em">
+  <input matInput [type]="type" [formControl]="control" />
+</mat-form-field>
+<mat-icon
+  class="error-info"
+  color="warn"
+  *ngIf="control.invalid"
+  [matTooltip]="getErrorMessage()"
+  >info
+</mat-icon>

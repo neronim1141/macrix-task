@@ -15,7 +15,7 @@ export const generateFakePerson = (id: number): PersonDTO => ({
   postalCode: faker.address.zipCode('##-###'),
   town: faker.address.cityName(),
   phoneNumber: faker.phone.number('+## ###-###-###'),
-  dateOfBirth: faker.date.birthdate(),
+  dateOfBirth: faker.date.birthdate().toISOString(),
 });
 export const PEOPLE_DATA = Array.from({ length: 5 }).map((_, i) =>
   generateFakePerson(i)

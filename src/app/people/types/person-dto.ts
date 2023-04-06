@@ -8,5 +8,5 @@ export interface PersonDTO {
   postalCode: string;
   town: string;
   phoneNumber: string;
-  dateOfBirth: Date;
+  dateOfBirth: string;
 }

@@ -14,6 +14,7 @@ import { PeopleListComponent } from './people-list.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { UtilsModule } from 'src/app/shared/utils.module';
 import { CalculateAgePipe } from '../../pipes/calculate-age.pipe';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 describe('PeopleListComponent', () => {
   let component: PeopleListComponent;
@@ -27,7 +28,12 @@ describe('PeopleListComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [PeopleListComponent, CalculateAgePipe],
-      imports: [MaterialModule, UtilsModule, NoopAnimationsModule],
+      imports: [
+        MaterialModule,
+        UtilsModule,
+        SharedModule,
+        NoopAnimationsModule,
+      ],
       providers: [
         {
           provide: PeopleService,
