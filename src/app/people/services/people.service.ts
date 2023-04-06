@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PersonDTO } from 'src/app/people/types/person';
+import { PersonDTO } from 'src/app/people/types/person-dto';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -12,5 +12,11 @@ export class PeopleService {
   }
   deletePerson(id: number): Observable<null> {
     return this.http.delete<null>(`${this.peopleUrl}/${id}`);
+  }
+  updatePerson(
+    id: PersonDTO['id'],
+    person: Partial<PersonDTO>
+  ): Observable<null> {
+    return this.http.put<null>(`${this.peopleUrl}/${id}`, person);
   }
 }

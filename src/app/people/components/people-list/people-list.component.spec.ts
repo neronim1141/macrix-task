@@ -13,6 +13,7 @@ import { PeopleService } from '../../services/people.service';
 import { PeopleListComponent } from './people-list.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { UtilsModule } from 'src/app/shared/utils.module';
+import { CalculateAgePipe } from '../../pipes/calculate-age.pipe';
 
 describe('PeopleListComponent', () => {
   let component: PeopleListComponent;
@@ -25,7 +26,7 @@ describe('PeopleListComponent', () => {
     ]);
 
     await TestBed.configureTestingModule({
-      declarations: [PeopleListComponent],
+      declarations: [PeopleListComponent, CalculateAgePipe],
       imports: [MaterialModule, UtilsModule, NoopAnimationsModule],
       providers: [
         {
@@ -67,9 +68,15 @@ describe('PeopleListComponent', () => {
     expect(component.onDelete).toHaveBeenCalled();
   }));
 
-  it('should call service when onDelete is called', () => {
+  it('should call service when onDelete is called', fakeAsync(() => {
+    fixture.autoDetectChanges();
     const spy = mockPeopleService.deletePerson;
-    component.onDelete(0);
+
+    expect(component.loading).toBeTruthy();
+    tick(1);
+    expect(component.loading).toBeFalsy();
+
+    component.onDelete(0, 0);
     expect(spy).toHaveBeenCalled();
-  });
+  }));
 });
