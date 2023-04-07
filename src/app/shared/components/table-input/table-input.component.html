@@ -1,4 +1,4 @@
-<mat-form-field *ngIf="type === 'date'" style="margin-bottom: -1.25em">
+<mat-form-field *ngIf="type === 'date'">
   <input
     matInput
     [matDatepicker]="picker"
@@ -9,13 +9,18 @@
   <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker></mat-datepicker>
 </mat-form-field>
-<mat-form-field *ngIf="type !== 'date'" style="margin-bottom: -1.25em">
-  <input matInput [type]="type" [formControl]="control" [required]="required" />
+<mat-form-field *ngIf="type !== 'date'">
+  <input
+    matInput
+    [type]="type"
+    [formControl]="control"
+    [required]="required"
+    [placeholder]="placeholder ?? ''" />
 </mat-form-field>
 <mat-icon
   class="error-info"
   color="warn"
-  *ngIf="control.invalid"
+  *ngIf="control.touched && control.invalid"
   [matTooltip]="getErrorMessage()"
   >info
 </mat-icon>

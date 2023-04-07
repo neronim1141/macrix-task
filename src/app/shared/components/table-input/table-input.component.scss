@@ -3,9 +3,11 @@
   gap: 0.25rem;
 }
 .error-info {
-  padding: 0.25rem;
+  padding: 1rem 0.75rem 0.25rem 0.25rem;
 }
 mat-form-field {
   font-size: 12px;
   width: 100%;
+  // https://copyprogramming.com/howto/how-to-remove-space-bottom-mat-form-field
+  margin-bottom: -1.25em;
 }

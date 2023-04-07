@@ -1,27 +1,26 @@
-# MacrixTask
+# Practical recruitment task
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.4.
+## Task details:
 
-## Development server
+Implement a web application which displays a table of people containing the following information:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- First Name,
+- Last Name
+- Street Name
+- House Number
+- Apartment Number(optional)
+- PostalCode
+- Town
+- Phone Number
+- Date ofBirth
+- Age (read-only)
 
-## Code scaffolding
+The application should allow a user to edit the data inline, add new users and delete existing ones.
+Belowthe table there should be two buttons: "Save" and "Cancel". When the Save button is pressed,
+changes made by the user should be sent to the server. Pressing the "Cancel" button discards user
+changes and causes the table to be refreshed based on the data fetched from the server. The
+buttons should be active only if the table contains unsaved data.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+The server can use memory as storage (afterrestaring server, data can disappear).
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+When you don't have experiencewith implementation of server, you can mock it on frontend side.

@@ -18,6 +18,13 @@ table {
 .mat-column-actions {
   width: 6rem;
 }
+.button-add-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem;
+}
+//remove padding for cells with input
 td:has(mcx-table-input, mcx-table-datepicker) {
   padding: 0;
 }

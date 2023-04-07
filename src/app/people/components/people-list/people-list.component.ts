@@ -69,6 +69,44 @@ export class PeopleListComponent implements OnInit {
       }),
     ]).subscribe(() => this.getPeopleData());
   }
+  onAdd() {
+    const control = this.peopleForm.controls.personRows;
+    control.push(this.createNewRowFormGroup());
+    // We mark it to enable buttons, because push on FormArray don't trigger it
+    this.peopleForm.markAsDirty();
+    this.dataSource = new MatTableDataSource(control.controls);
+  }
+
+  createNewRowFormGroup(person?: PersonDTO): FormGroup {
+    return this.formBuilder.group({
+      id: new FormControl(person?.id),
+      firstName: new FormControl(person?.firstName ?? '', {
+        validators: [Validators.required],
+      }),
+      lastName: new FormControl(person?.lastName ?? '', {
+        validators: [Validators.required],
+      }),
+      streetName: new FormControl(person?.streetName ?? '', {
+        validators: [Validators.required],
+      }),
+      houseNumber: new FormControl(person?.houseNumber, {
+        validators: [Validators.required],
+      }),
+      apartmentNumber: new FormControl(person?.apartmentNumber),
+      postalCode: new FormControl(person?.postalCode ?? '', {
+        validators: [Validators.required],
+      }),
+      town: new FormControl(person?.town ?? '', {
+        validators: [Validators.required],
+      }),
+      phoneNumber: new FormControl(person?.phoneNumber ?? '', {
+        validators: [Validators.required],
+      }),
+      dateOfBirth: new FormControl(person?.dateOfBirth, {
+        validators: [Validators.required],
+      }),
+    });
+  }
 
   onDelete(id: number) {
     this.peopleService.deletePerson(id).subscribe(() => {
@@ -91,37 +129,7 @@ export class PeopleListComponent implements OnInit {
   private createForm(people: PersonDTO[]): FormGroup {
     return this.formBuilder.group({
       personRows: this.formBuilder.array(
-        people.map(person => {
-          return this.formBuilder.group({
-            id: new FormControl(person.id),
-            firstName: new FormControl(person.firstName, {
-              validators: [Validators.required],
-            }),
-            lastName: new FormControl(person.lastName, {
-              validators: [Validators.required],
-            }),
-            streetName: new FormControl(person.streetName, {
-              validators: [Validators.required],
-            }),
-            houseNumber: new FormControl(person.houseNumber, {
-              validators: [Validators.required],
-            }),
-            apartmentNumber: new FormControl(person.apartmentNumber),
-            postalCode: new FormControl(person.postalCode, {
-              validators: [Validators.required],
-            }),
-            town: new FormControl(person.town, {
-              validators: [Validators.required],
-            }),
-            phoneNumber: new FormControl(person.phoneNumber, {
-              validators: [Validators.required],
-            }),
-            dateOfBirth: new FormControl(person.dateOfBirth, {
-              //TODO:  max validator
-              validators: [Validators.required],
-            }),
-          });
-        })
+        people.map(person => this.createNewRowFormGroup(person))
       ),
     });
   }
