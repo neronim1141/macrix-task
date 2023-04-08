@@ -30,7 +30,7 @@ When you don't have experiencewith implementation of server, you can mock it on 
 I realized only at the end of time that [Testing Library for Angular](https://testing-library.com/docs/angular-testing-library/intro/) is a thing, if i discovered it faster i would certainly use it.
 
 Material Design don't have principles about using inputs inside of tables, so i allowed myself to alter some css code directly.
-To be honest selecting that library because was because of me remembering to be use it 3-4 years ago, and my own UI design is for now stll bad.
+To be honest that library selection was because of me remembering to be use it 3-4 years ago, and my own UI design is for now stll bad.
 
 While writing code I recalled how though to work it was, and whenever I will have to write something simmilar again I would preferably choose something else eg. Bootstrap.
 For this one I stayed with it to show that I can stick to it even if I don't like it.
