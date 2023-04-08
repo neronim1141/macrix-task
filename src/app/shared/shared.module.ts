@@ -1,24 +1,18 @@
 import { NgModule } from '@angular/core';
 import { TableInputComponent } from './components/table-input/table-input.component';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpLoadingInterceptor } from './interceptors/http-loading.interceptor';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../material.module';
-import { LoadingDialogComponent } from './services/loading/loading-dialog/loading-dialog.component';
-import { LoadingDialogService } from './services/loading/loading-dialog.service';
+import { LoadingDialogComponent } from './components/loading-dialog/loading-dialog.component';
+import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
+import { ErrorDialogService } from './services/error-dialog-service';
+import { LoadingDialogService } from './services/loading-dialog.service';
 
+const sharedComponents = [LoadingDialogComponent, ErrorDialogComponent];
 @NgModule({
-  declarations: [LoadingDialogComponent],
+  declarations: sharedComponents,
   imports: [CommonModule, MaterialModule, TableInputComponent],
   exports: [TableInputComponent, LoadingDialogComponent],
-  providers: [
-    LoadingDialogService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpLoadingInterceptor,
-      multi: true,
-    },
-  ],
-  entryComponents: [LoadingDialogComponent],
+  providers: [ErrorDialogService, LoadingDialogService],
+  entryComponents: sharedComponents,
 })
 export class SharedModule {}

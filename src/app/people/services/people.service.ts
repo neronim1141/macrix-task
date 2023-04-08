@@ -11,7 +11,6 @@ export class PeopleService {
     return this.http.get<PersonDTO[]>(this.peopleUrl);
   }
   deletePerson(id: number): Observable<null> {
-    console.log(id);
     return this.http.delete<null>(`${this.peopleUrl}/${id}`);
   }
   updatePerson(

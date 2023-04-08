@@ -4,8 +4,8 @@
     [matDatepicker]="picker"
     placeholder="DD/MM/YYYY"
     [formControl]="control"
-    [max]="max"
-    [required]="required" />
+    [required]="required"
+    [max]="max" />
   <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker></mat-datepicker>
 </mat-form-field>
@@ -17,10 +17,12 @@
     [required]="required"
     [placeholder]="placeholder ?? ''" />
 </mat-form-field>
+
 <mat-icon
   class="error-info"
   color="warn"
-  *ngIf="control.touched && control.invalid"
-  [matTooltip]="getErrorMessage()"
+  *ngIf="control.invalid && control.touched && errorMessages.length > 0"
+  [matTooltip]="errorMessages.join('\n')"
+  matTooltipClass="multiline-tooltip"
   >info
 </mat-icon>

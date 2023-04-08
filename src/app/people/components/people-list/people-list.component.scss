@@ -1,40 +1,35 @@
 table {
   width: 100%;
   table-layout: fixed;
-  overflow: scroll;
 }
-.loader {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-}
-
-.mat-column-id,
 .mat-column-age {
   width: 4rem;
 }
 .mat-column-actions {
   width: 6rem;
 }
-.button-add-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 0.5rem;
-}
-//remove padding for cells with input
-td:has(mcx-table-input, mcx-table-datepicker) {
+// Remove padding for cells with input
+td:has(mcx-table-input) {
   padding: 0;
 }
-mcx-table-input,
-mcx-table-datepicker {
-  max-width: 100%;
-}
+
 .edit-actions {
   padding: 0.5rem;
   display: flex;
   gap: 0.5rem;
   justify-content: flex-end;
+}
+.no_data_container {
+  width: 100%;
+  text-align: center;
+  padding: 0.5rem;
+  font-weight: bold;
+  font-size: 1.25rem;
+  border-bottom: 1px solid darkgray;
+}
+.button-add-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem;
 }

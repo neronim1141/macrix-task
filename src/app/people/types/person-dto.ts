@@ -1,4 +1,4 @@
-export interface PersonDTO {
+export type PersonDTO = {
   readonly id: number;
   firstName: string;
   lastName: string;
@@ -9,4 +9,4 @@ export interface PersonDTO {
   town: string;
   phoneNumber: string;
   dateOfBirth: string;
-}
+};

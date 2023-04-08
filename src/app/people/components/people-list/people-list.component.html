@@ -6,14 +6,8 @@
   (keydown.enter)="$event.preventDefault()">
   <ng-container formArrayName="personRows">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z1">
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef>Id</th>
-        <td mat-cell *matCellDef="let person">
-          {{ person.controls.id.getRawValue() ?? 'new' }}
-        </td>
-      </ng-container>
       <ng-container matColumnDef="firstName">
-        <th mat-header-cell *matHeaderCellDef>Firstname</th>
+        <th mat-header-cell *matHeaderCellDef>First Name</th>
         <td mat-cell *matCellDef="let person; let i = index">
           <div class="table-field">
             <mcx-table-input
@@ -23,8 +17,9 @@
           </div>
         </td>
       </ng-container>
+
       <ng-container matColumnDef="lastName">
-        <th mat-header-cell *matHeaderCellDef>Lastname</th>
+        <th mat-header-cell *matHeaderCellDef>Last Name</th>
         <td mat-cell *matCellDef="let person">
           <mcx-table-input
             [control]="person.controls['lastName']"
@@ -32,8 +27,9 @@
             placeholder="Last Name" />
         </td>
       </ng-container>
+
       <ng-container matColumnDef="streetName">
-        <th mat-header-cell *matHeaderCellDef>Street</th>
+        <th mat-header-cell *matHeaderCellDef>Street Name</th>
         <td mat-cell *matCellDef="let person">
           <mcx-table-input
             [control]="person.controls['streetName']"
@@ -41,6 +37,7 @@
             placeholder="Street Name" />
         </td>
       </ng-container>
+
       <ng-container matColumnDef="houseNumber">
         <th mat-header-cell *matHeaderCellDef>House Number</th>
         <td mat-cell *matCellDef="let person">
@@ -48,18 +45,22 @@
             type="number"
             [control]="person.controls['houseNumber']"
             required="true"
+            min="0"
             placeholder="House Number" />
         </td>
       </ng-container>
+
       <ng-container matColumnDef="apartmentNumber">
         <th mat-header-cell *matHeaderCellDef>Apartment Number</th>
         <td mat-cell *matCellDef="let person">
           <mcx-table-input
             type="number"
+            placeholder="Apartment Number"
             [control]="person.controls['apartmentNumber']"
-            placeholder="Apartment Number" />
+            min="0" />
         </td>
       </ng-container>
+
       <ng-container matColumnDef="postalCode">
         <th mat-header-cell *matHeaderCellDef>Postal Code</th>
         <td mat-cell *matCellDef="let person">
@@ -69,6 +70,7 @@
             placeholder="Postal Code" />
         </td>
       </ng-container>
+
       <ng-container matColumnDef="town">
         <th mat-header-cell *matHeaderCellDef>Town</th>
         <td mat-cell *matCellDef="let person">
@@ -78,6 +80,7 @@
             placeholder="Town" />
         </td>
       </ng-container>
+
       <ng-container matColumnDef="phoneNumber">
         <th mat-header-cell *matHeaderCellDef>Phone Number</th>
         <td mat-cell *matCellDef="let person">
@@ -87,9 +90,10 @@
             placeholder="Phone Number" />
         </td>
       </ng-container>
+
       <ng-container matColumnDef="dateOfBirth">
         <th mat-header-cell *matHeaderCellDef>Birthdate</th>
-        <td mat-cell *matCellDef="let person" [formGroup]="person">
+        <td mat-cell *matCellDef="let person">
           <mcx-table-input
             type="date"
             [max]="currentDate"
@@ -97,12 +101,18 @@
             required="true" />
         </td>
       </ng-container>
+
       <ng-container matColumnDef="age">
         <th mat-header-cell *matHeaderCellDef>Age</th>
         <td mat-cell *matCellDef="let person" [formGroup]="person">
-          {{ person.controls.dateOfBirth.getRawValue() | calculateAge }}
+          {{
+            person.controls.dateOfBirth.getRawValue()
+              ? (person.controls.dateOfBirth.getRawValue() | calculateAge)
+              : '?'
+          }}
         </td>
       </ng-container>
+
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Action</th>
         <td
@@ -119,6 +129,7 @@
           </button>
         </td>
       </ng-container>
+
       <ng-container matColumnDef="control">
         <td
           mat-footer-cell
@@ -138,7 +149,7 @@
 
       <tr class="mat-row" *matNoDataRow>
         <td [attr.colspan]="displayedColumns.length">
-          <div class="table-loader">no data</div>
+          <div class="no_data_container">No People</div>
         </td>
       </tr>
     </table>

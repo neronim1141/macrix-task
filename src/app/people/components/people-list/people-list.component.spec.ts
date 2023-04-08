@@ -1,20 +1,13 @@
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { delay } from 'rxjs/operators';
 import { MaterialModule } from 'src/app/material.module';
 import { PeopleService } from '../../services/people.service';
-
 import { PeopleListComponent } from './people-list.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CalculateAgePipe } from '../../pipes/calculate-age.pipe';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { UtilsModule } from 'src/app/utils/utils.module';
-import { generateFakePerson } from 'src/app/utils/in-memory-data/in-memory-data.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { generateFakePerson } from '../../utils/test.utils';
 
 describe('PeopleListComponent', () => {
   let component: PeopleListComponent;
@@ -30,7 +23,8 @@ describe('PeopleListComponent', () => {
       declarations: [PeopleListComponent, CalculateAgePipe],
       imports: [
         MaterialModule,
-        UtilsModule,
+        FormsModule,
+        ReactiveFormsModule,
         SharedModule,
         NoopAnimationsModule,
       ],
@@ -41,12 +35,12 @@ describe('PeopleListComponent', () => {
         },
       ],
     }).compileComponents();
+
     mockPeopleService = TestBed.inject(
       PeopleService
     ) as jasmine.SpyObj<PeopleService>;
-    mockPeopleService.getPeople.and.returnValue(
-      of([generateFakePerson(0)]).pipe(delay(1))
-    );
+
+    mockPeopleService.getPeople.and.returnValue(of([generateFakePerson(0)]));
     mockPeopleService.deletePerson.and.returnValue(of());
 
     fixture = TestBed.createComponent(PeopleListComponent);
@@ -60,10 +54,8 @@ describe('PeopleListComponent', () => {
 
   it('should call onDelete when Delete button is clicked', fakeAsync(() => {
     spyOn(component, 'onDelete');
-    fixture.autoDetectChanges(); // ASK: why its not working in BeforeEach
-
-    tick(1);
-
+    // QUESTION: What might be the cause that this line is not working at the end BeforeEach?
+    fixture.autoDetectChanges();
     const row = fixture.debugElement.nativeElement.querySelectorAll('tr');
     const button = Array.from<HTMLButtonElement>(
       row[1].querySelectorAll('button')
@@ -75,8 +67,6 @@ describe('PeopleListComponent', () => {
   it('should call service when onDelete is called', fakeAsync(() => {
     fixture.autoDetectChanges();
     const spy = mockPeopleService.deletePerson;
-
-    tick(1);
 
     component.onDelete(0);
     expect(spy).toHaveBeenCalled();

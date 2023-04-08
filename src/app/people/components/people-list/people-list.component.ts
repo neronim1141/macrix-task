@@ -23,7 +23,6 @@ type PersonControls = {
 export class PeopleListComponent implements OnInit {
   currentDate = new Date();
   displayedColumns: (keyof PersonDTO | 'age' | 'actions')[] = [
-    'id',
     'firstName',
     'lastName',
     'streetName',
@@ -51,9 +50,28 @@ export class PeopleListComponent implements OnInit {
     this.getPeopleData();
   }
 
+  onDelete(id: number) {
+    // If we want to refresh the data from server on cancel then i assume it is allowed to refresh it after correct entry deletion
+    this.peopleService.deletePerson(id).subscribe(() => {
+      this.getPeopleData();
+    });
+  }
+
+  onAdd() {
+    const control = this.peopleForm.controls.personRows;
+    control.push(this.createNewRowFormGroup());
+    // We mark it to enable buttons, because push on FormArray don't trigger it
+    this.peopleForm.markAsDirty();
+    this.dataSource = new MatTableDataSource(control.controls);
+  }
+
+  onCancel() {
+    this.getPeopleData();
+  }
+
   onSubmit() {
     if (this.peopleForm.invalid) return;
-    // Get edited rows values
+    // Get edited/added rows values
     const dirtyControlsValues = this.peopleForm.controls.personRows.controls
       .filter(control => !control.pristine)
       .map(control => control.value);
@@ -64,58 +82,12 @@ export class PeopleListComponent implements OnInit {
           return this.peopleService.updatePerson(person.id, person);
         else
           return this.peopleService.createPerson(
+            // I'm allowing myself to cast here because form builder don't let the code execute if the required fields are not here
             person as Omit<PersonDTO, 'id'>
           );
       }),
+      // The same reason as in onDelete
     ]).subscribe(() => this.getPeopleData());
-  }
-  onAdd() {
-    const control = this.peopleForm.controls.personRows;
-    control.push(this.createNewRowFormGroup());
-    // We mark it to enable buttons, because push on FormArray don't trigger it
-    this.peopleForm.markAsDirty();
-    this.dataSource = new MatTableDataSource(control.controls);
-  }
-
-  createNewRowFormGroup(person?: PersonDTO): FormGroup {
-    return this.formBuilder.group({
-      id: new FormControl(person?.id),
-      firstName: new FormControl(person?.firstName ?? '', {
-        validators: [Validators.required],
-      }),
-      lastName: new FormControl(person?.lastName ?? '', {
-        validators: [Validators.required],
-      }),
-      streetName: new FormControl(person?.streetName ?? '', {
-        validators: [Validators.required],
-      }),
-      houseNumber: new FormControl(person?.houseNumber, {
-        validators: [Validators.required],
-      }),
-      apartmentNumber: new FormControl(person?.apartmentNumber),
-      postalCode: new FormControl(person?.postalCode ?? '', {
-        validators: [Validators.required],
-      }),
-      town: new FormControl(person?.town ?? '', {
-        validators: [Validators.required],
-      }),
-      phoneNumber: new FormControl(person?.phoneNumber ?? '', {
-        validators: [Validators.required],
-      }),
-      dateOfBirth: new FormControl(person?.dateOfBirth, {
-        validators: [Validators.required],
-      }),
-    });
-  }
-
-  onDelete(id: number) {
-    this.peopleService.deletePerson(id).subscribe(() => {
-      this.getPeopleData();
-    });
-  }
-
-  onCancel() {
-    this.getPeopleData();
   }
 
   private getPeopleData() {
@@ -126,11 +98,37 @@ export class PeopleListComponent implements OnInit {
       );
     });
   }
+
   private createForm(people: PersonDTO[]): FormGroup {
     return this.formBuilder.group({
       personRows: this.formBuilder.array(
         people.map(person => this.createNewRowFormGroup(person))
       ),
+    });
+  }
+
+  private createNewRowFormGroup(person?: PersonDTO): FormGroup {
+    return this.formBuilder.group({
+      id: new FormControl(person?.id),
+      firstName: new FormControl(person?.firstName, Validators.required),
+      lastName: new FormControl(person?.lastName, Validators.required),
+      streetName: new FormControl(person?.streetName, Validators.required),
+      houseNumber: new FormControl(person?.houseNumber, [
+        Validators.required,
+        Validators.min(0),
+      ]),
+      apartmentNumber: new FormControl(person?.apartmentNumber, [
+        Validators.min(0),
+      ]),
+      postalCode: new FormControl(person?.postalCode, Validators.required),
+      town: new FormControl(person?.town, Validators.required),
+      phoneNumber: new FormControl(person?.phoneNumber, [
+        Validators.required,
+        Validators.pattern('[+\\- \\(\\)0-9]*'),
+      ]),
+      // I'm not setting max date validator here because material datepicker has them internally
+      // when the corresponding attributes are provided
+      dateOfBirth: new FormControl(person?.dateOfBirth, Validators.required),
     });
   }
 }

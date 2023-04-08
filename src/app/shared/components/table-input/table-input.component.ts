@@ -1,12 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
 import {
   DateAdapter,
   MAT_DATE_FORMATS,
@@ -16,6 +10,7 @@ import {
   MomentDateAdapter,
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
 } from '@angular/material-moment-adapter';
+import { MaterialModule } from 'src/app/material.module';
 
 // https://stackoverflow.com/questions/53359598/how-to-change-angular-material-datepicker-format
 export const APP_DATE_FORMATS = {
@@ -32,17 +27,7 @@ export const APP_DATE_FORMATS = {
 
 @Component({
   standalone: true,
-  imports: [
-    CommonModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatTooltipModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    FormsModule,
-    MatInputModule,
-    ReactiveFormsModule,
-  ],
+  imports: [CommonModule, MaterialModule, FormsModule, ReactiveFormsModule],
   providers: [
     { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
     {
@@ -57,23 +42,25 @@ export const APP_DATE_FORMATS = {
   styleUrls: ['./table-input.component.scss'],
 })
 export class TableInputComponent {
+  // QUESTION: It is possible, like in react, to make Inputs properties depend on other properties
+  // like max is Date type only if type will be set to 'date'? If yes how?
   @Input() control: FormControl = new FormControl();
   @Input() type: 'number' | 'text' | 'date' = 'text';
   @Input() max?: Date;
   @Input() required: 'true' | boolean = false;
   @Input() placeholder?: string;
 
-  getErrorMessage() {
-    const errors = this.control?.errors;
-    if (errors?.['matDatepickerParse']) {
-      return 'This Date is Invalid';
-    }
-    if (errors?.['matDatepickerMax']) {
-      return 'This Date is later than allowed';
-    }
-    if (errors?.['required']) {
-      return 'This field is required';
-    }
-    return 'unknown';
+  get errorMessages() {
+    return Object.keys(this.control.errors ?? {}).map((errorKey: string) => {
+      return (
+        {
+          matDatepickerParse: 'This Date is Invalid',
+          matDatepickerMax: 'This Date is later than allowed',
+          required: 'This field is required',
+          min: 'This value is too low',
+          pattern: 'Invalid pattern',
+        }[errorKey] ?? errorKey
+      );
+    });
   }
 }

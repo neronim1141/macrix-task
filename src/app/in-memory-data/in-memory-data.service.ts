@@ -1,23 +1,7 @@
 import { Injectable } from '@angular/core';
-import { faker } from '@faker-js/faker';
 import { PersonDTO } from 'src/app/people/types/person-dto';
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-
-export const generateFakePerson = (id: number): PersonDTO => ({
-  id,
-  firstName: faker.name.firstName(),
-  lastName: faker.name.lastName(),
-  streetName: faker.address.street(),
-  houseNumber: faker.address.buildingNumber(),
-  apartmentNumber: faker.helpers.arrayElement([
-    faker.address.buildingNumber(),
-    undefined,
-  ]),
-  postalCode: faker.address.zipCode('##-###'),
-  town: faker.address.cityName(),
-  phoneNumber: faker.phone.number('+## ###-###-###'),
-  dateOfBirth: faker.date.birthdate().toISOString(),
-});
+import { generateFakePerson } from '../people/utils/test.utils';
 
 export const PEOPLE_DATA = Array.from({ length: 5 }).map((_, i) =>
   generateFakePerson(i)

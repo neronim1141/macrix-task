@@ -6,7 +6,7 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { LoadingDialogService } from '../services/loading/loading-dialog.service';
+import { LoadingDialogService } from '../../shared/services/loading-dialog.service';
 import { Injectable } from '@angular/core';
 
 @Injectable()
