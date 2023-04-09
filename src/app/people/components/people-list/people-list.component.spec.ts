@@ -1,12 +1,8 @@
 import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { MaterialModule } from 'src/app/material.module';
 import { PeopleService } from '../../services/people.service';
 import { PeopleListComponent } from './people-list.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { CalculateAgePipe } from '../../pipes/calculate-age.pipe';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { generateFakePerson } from '../../utils/test.utils';
 
 describe('PeopleListComponent', () => {
@@ -20,14 +16,7 @@ describe('PeopleListComponent', () => {
     ]);
 
     await TestBed.configureTestingModule({
-      declarations: [PeopleListComponent, CalculateAgePipe],
-      imports: [
-        MaterialModule,
-        FormsModule,
-        ReactiveFormsModule,
-        SharedModule,
-        NoopAnimationsModule,
-      ],
+      imports: [PeopleListComponent, NoopAnimationsModule],
       providers: [
         {
           provide: PeopleService,

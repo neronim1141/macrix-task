@@ -9,11 +9,20 @@
       <ng-container matColumnDef="firstName">
         <th mat-header-cell *matHeaderCellDef>First Name</th>
         <td mat-cell *matCellDef="let person; let i = index">
-          <div class="table-field">
-            <mcx-table-input
-              [control]="person.controls['firstName']"
-              required="true"
-              placeholder="First Name" />
+          <div
+            *mcxTableControl="
+              person.controls['firstName'];
+              let control = control
+            "
+            class="table-field-container">
+            <mat-form-field>
+              <input
+                matInput
+                [formControl]="control"
+                required
+                placeholder="First Name" />
+            </mat-form-field>
+            <mcx-table-error-icon [control]="control" />
           </div>
         </td>
       </ng-container>
@@ -21,84 +30,172 @@
       <ng-container matColumnDef="lastName">
         <th mat-header-cell *matHeaderCellDef>Last Name</th>
         <td mat-cell *matCellDef="let person">
-          <mcx-table-input
-            [control]="person.controls['lastName']"
-            required="true"
-            placeholder="Last Name" />
+          <div
+            *mcxTableControl="
+              person.controls['lastName'];
+              let control = control
+            "
+            class="table-field-container">
+            <mat-form-field>
+              <input
+                matInput
+                [formControl]="control"
+                required
+                placeholder="Last Name" />
+            </mat-form-field>
+            <mcx-table-error-icon [control]="control" />
+          </div>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="streetName">
         <th mat-header-cell *matHeaderCellDef>Street Name</th>
         <td mat-cell *matCellDef="let person">
-          <mcx-table-input
-            [control]="person.controls['streetName']"
-            required="true"
-            placeholder="Street Name" />
+          <div
+            *mcxTableControl="
+              person.controls['streetName'];
+              let control = control
+            "
+            class="table-field-container">
+            <mat-form-field>
+              <input
+                matInput
+                [formControl]="control"
+                required
+                placeholder="Street Name" />
+            </mat-form-field>
+            <mcx-table-error-icon [control]="control" />
+          </div>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="houseNumber">
         <th mat-header-cell *matHeaderCellDef>House Number</th>
         <td mat-cell *matCellDef="let person">
-          <mcx-table-input
-            type="number"
-            [control]="person.controls['houseNumber']"
-            required="true"
-            min="0"
-            placeholder="House Number" />
+          <div
+            *mcxTableControl="
+              person.controls['houseNumber'];
+              let control = control
+            "
+            class="table-field-container">
+            <mat-form-field>
+              <input
+                matInput
+                type="number"
+                [formControl]="control"
+                required
+                placeholder="House Number" />
+            </mat-form-field>
+            <mcx-table-error-icon [control]="control" />
+          </div>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="apartmentNumber">
         <th mat-header-cell *matHeaderCellDef>Apartment Number</th>
         <td mat-cell *matCellDef="let person">
-          <mcx-table-input
-            type="number"
-            placeholder="Apartment Number"
-            [control]="person.controls['apartmentNumber']"
-            min="0" />
+          <div
+            *mcxTableControl="
+              person.controls['apartmentNumber'];
+              let control = control
+            "
+            class="table-field-container">
+            <mat-form-field>
+              <input
+                matInput
+                type="number"
+                [formControl]="control"
+                placeholder="Apartment Number" />
+            </mat-form-field>
+            <mcx-table-error-icon [control]="control" />
+          </div>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="postalCode">
         <th mat-header-cell *matHeaderCellDef>Postal Code</th>
         <td mat-cell *matCellDef="let person">
-          <mcx-table-input
-            [control]="person.controls['postalCode']"
-            required="true"
-            placeholder="Postal Code" />
+          <div
+            *mcxTableControl="
+              person.controls['postalCode'];
+              let control = control
+            "
+            class="table-field-container">
+            <mat-form-field>
+              <input
+                matInput
+                [formControl]="control"
+                required
+                placeholder="Postal Code" />
+            </mat-form-field>
+            <mcx-table-error-icon [control]="control" />
+          </div>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="town">
         <th mat-header-cell *matHeaderCellDef>Town</th>
         <td mat-cell *matCellDef="let person">
-          <mcx-table-input
-            [control]="person.controls['town']"
-            required="true"
-            placeholder="Town" />
+          <div
+            *mcxTableControl="person.controls['town']; let control = control"
+            class="table-field-container">
+            <mat-form-field>
+              <input
+                matInput
+                [formControl]="control"
+                required
+                placeholder="Town" />
+            </mat-form-field>
+            <mcx-table-error-icon [control]="control" />
+          </div>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="phoneNumber">
         <th mat-header-cell *matHeaderCellDef>Phone Number</th>
         <td mat-cell *matCellDef="let person">
-          <mcx-table-input
-            [control]="person.controls['phoneNumber']"
-            required="true"
-            placeholder="Phone Number" />
+          <div
+            *mcxTableControl="
+              person.controls['phoneNumber'];
+              let control = control
+            "
+            class="table-field-container">
+            <mat-form-field>
+              <input
+                matInput
+                [formControl]="control"
+                required
+                placeholder="phoneNumber" />
+            </mat-form-field>
+            <mcx-table-error-icon [control]="control" />
+          </div>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="dateOfBirth">
         <th mat-header-cell *matHeaderCellDef>Date Of Birth</th>
         <td mat-cell *matCellDef="let person">
-          <mcx-table-input
-            type="date"
-            [max]="currentDate"
-            [control]="person.controls['dateOfBirth']"
-            required="true" />
+          <div
+            *mcxTableControl="
+              person.controls['dateOfBirth'];
+              let control = control
+            "
+            class="table-field-container">
+            <mat-form-field>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                placeholder="DD/MM/YYYY"
+                [formControl]="control"
+                required
+                [max]="currentDate" />
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mcx-table-error-icon [control]="control" />
+          </div>
         </td>
       </ng-container>
 

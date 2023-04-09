@@ -1,20 +1,14 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { PeopleService } from './services/people.service';
 import { PeopleListComponent } from './components/people-list/people-list.component';
-import { MaterialModule } from '../material.module';
-import { CalculateAgePipe } from './pipes/calculate-age.pipe';
-import { SharedModule } from '../shared/shared.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TableControlDirective } from '../shared/directives/table-control.directive';
+import { TableErrorIconComponent } from '../shared/components/table-error-icon/table-error-icon.component';
 
 @NgModule({
-  declarations: [PeopleListComponent, CalculateAgePipe],
   imports: [
-    BrowserModule,
-    MaterialModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SharedModule,
+    TableControlDirective,
+    TableErrorIconComponent,
+    PeopleListComponent,
   ],
   exports: [PeopleListComponent],
   providers: [PeopleService],

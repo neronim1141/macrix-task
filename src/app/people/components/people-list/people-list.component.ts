@@ -6,16 +6,33 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { PersonDTO } from '../../types/person-dto';
 import { zip } from 'rxjs';
+import { MaterialModule } from 'src/app/material.module';
+import { TableErrorIconComponent } from 'src/app/shared/components/table-error-icon/table-error-icon.component';
+import { CalculateAgePipe } from '../../pipes/calculate-age.pipe';
+import { CommonModule } from '@angular/common';
+import { TableControlDirective } from 'src/app/shared/directives/table-control.directive';
 
 type PersonControls = {
   [key in keyof PersonDTO]: AbstractControl<PersonDTO[key]>;
 };
 @Component({
+  standalone: true,
+  imports: [
+    TableControlDirective,
+    CommonModule,
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TableErrorIconComponent,
+    CalculateAgePipe,
+  ],
   selector: 'mcx-people-list',
   templateUrl: './people-list.component.html',
   styleUrls: ['./people-list.component.scss'],
@@ -124,6 +141,7 @@ export class PeopleListComponent implements OnInit {
       town: new FormControl(person?.town, Validators.required),
       phoneNumber: new FormControl(person?.phoneNumber, [
         Validators.required,
+        // TODO: Preferably use package for this check as the international numbers have too many configurations
         Validators.pattern('[+\\- \\(\\)0-9]*'),
       ]),
       // I'm not setting max date validator here because material datepicker has them internally
