@@ -22,7 +22,9 @@
                 required
                 placeholder="First Name" />
             </mat-form-field>
-            <mcx-table-error-icon [control]="control" />
+            <mcx-table-error-icon
+              [control]="control"
+              [show]="control.touched && control.invalid" />
           </div>
         </td>
       </ng-container>
@@ -43,7 +45,9 @@
                 required
                 placeholder="Last Name" />
             </mat-form-field>
-            <mcx-table-error-icon [control]="control" />
+            <mcx-table-error-icon
+              [control]="control"
+              [show]="control.touched && control.invalid" />
           </div>
         </td>
       </ng-container>
@@ -64,7 +68,9 @@
                 required
                 placeholder="Street Name" />
             </mat-form-field>
-            <mcx-table-error-icon [control]="control" />
+            <mcx-table-error-icon
+              [control]="control"
+              [show]="control.touched && control.invalid" />
           </div>
         </td>
       </ng-container>
@@ -86,7 +92,9 @@
                 required
                 placeholder="House Number" />
             </mat-form-field>
-            <mcx-table-error-icon [control]="control" />
+            <mcx-table-error-icon
+              [control]="control"
+              [show]="control.touched && control.invalid" />
           </div>
         </td>
       </ng-container>
@@ -107,7 +115,9 @@
                 [formControl]="control"
                 placeholder="Apartment Number" />
             </mat-form-field>
-            <mcx-table-error-icon [control]="control" />
+            <mcx-table-error-icon
+              [control]="control"
+              [show]="control.touched && control.invalid" />
           </div>
         </td>
       </ng-container>
@@ -128,7 +138,9 @@
                 required
                 placeholder="Postal Code" />
             </mat-form-field>
-            <mcx-table-error-icon [control]="control" />
+            <mcx-table-error-icon
+              [control]="control"
+              [show]="control.touched && control.invalid" />
           </div>
         </td>
       </ng-container>
@@ -146,7 +158,9 @@
                 required
                 placeholder="Town" />
             </mat-form-field>
-            <mcx-table-error-icon [control]="control" />
+            <mcx-table-error-icon
+              [control]="control"
+              [show]="control.touched && control.invalid" />
           </div>
         </td>
       </ng-container>
@@ -167,7 +181,9 @@
                 required
                 placeholder="phoneNumber" />
             </mat-form-field>
-            <mcx-table-error-icon [control]="control" />
+            <mcx-table-error-icon
+              [control]="control"
+              [show]="control.touched && control.invalid" />
           </div>
         </td>
       </ng-container>
@@ -194,7 +210,9 @@
                 [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
-            <mcx-table-error-icon [control]="control" />
+            <mcx-table-error-icon
+              [control]="control"
+              [show]="control.touched && control.invalid" />
           </div>
         </td>
       </ng-container>

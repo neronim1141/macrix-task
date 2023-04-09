@@ -1,7 +1,7 @@
 <mat-icon
   class="error-info"
   color="warn"
-  *ngIf="_errorMessages"
+  *ngIf="_show && _errorMessages"
   [matTooltip]="_errorMessages"
   matTooltipClass="multiline-tooltip"
   >info

@@ -14,13 +14,21 @@ import { humanizeErrors } from '../../utils/humanize-errors';
 export class TableErrorIconComponent {
   _control?: FormControl;
   _errorMessages = '';
+  _show = false;
+  @Input() set show(value: boolean) {
+    this._show = value;
+    this.setErrors();
+  }
   @Input()
   set control(value: FormControl) {
     this._control = value;
     this._control.statusChanges.subscribe(() => {
-      this._errorMessages = humanizeErrors(this._control?.errors ?? {}).join(
-        '\n'
-      );
+      this.setErrors();
     });
+  }
+  private setErrors() {
+    this._errorMessages = humanizeErrors(this._control?.errors ?? {}).join(
+      '\n'
+    );
   }
 }
